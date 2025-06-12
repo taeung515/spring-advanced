@@ -29,23 +29,12 @@ public class AdminAspect {
         log.info("요청 id = {}", userId);
 
         Object[] args = joinPoint.getArgs();
-        for (Object arg : args) {
-            try {
-                String json = objectMapper.writeValueAsString(arg);
-                log.info("요청 Body(JSON) = {}", json);
-            } catch (Exception e) {
-                log.info("요청 Body = {}", arg);
-            }
-        }
+        String requestBody = objectMapper.writeValueAsString(args[1]);
+        log.info("요청 Body(JSON) = {}", requestBody);
 
         Object result = joinPoint.proceed();
-
-        try {
-            String json = objectMapper.writeValueAsString(result);
-            log.info("응답 Body(JSON) = {}", json);
-        } catch (Exception e) {
-            log.info("응답 Body = {}", result);
-        }
+        String responseBody = objectMapper.writeValueAsString(result);
+        log.info("응답 Body(JSON) = {}", responseBody);
 
         return result;
     }
